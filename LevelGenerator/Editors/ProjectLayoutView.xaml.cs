@@ -25,5 +25,10 @@ namespace LevelGenerator.Editors
         {
             InitializeComponent();
         }
+
+        private void OnAddGameEntity_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

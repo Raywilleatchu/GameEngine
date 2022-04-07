@@ -50,13 +50,13 @@ namespace LevelGenerator.GameProject
         public ICommand RemoveSceneCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
 
-        private void AddSceneInternal(string sceneName)
+        private void AddScene(string sceneName)
         {
             Debug.Assert(!string.IsNullOrEmpty(sceneName));
             _scenes.Add(new Scene(this, sceneName));
         }
 
-        private void RemoveSceneInternal(Scene scene)
+        private void RemoveScene(Scene scene)
         {
             Debug.Assert(_scenes.Contains(scene));
             _scenes.Remove(scene);
@@ -80,7 +80,7 @@ namespace LevelGenerator.GameProject
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context)
         {
-            if(_scenes != null)
+            if (_scenes != null)
             {
                 Scenes = new ReadOnlyObservableCollection<Scene>(_scenes);
                 OnPropertyChanged(nameof(Scenes));
@@ -88,11 +88,11 @@ namespace LevelGenerator.GameProject
             ActiveScene = Scenes.FirstOrDefault(x => x.IsActive);
             AddSceneCommand = new RelayCommand<object>(x =>
             {
-                AddSceneInternal("New Scene" + _scenes.Count);
+                AddScene("New Scene" + _scenes.Count);
                 var newScene = _scenes.Last();
                 int sceneIndex = _scenes.Count - 1;
                 UndoRedo.Add(new UndoRedoAction(
-                    () => RemoveSceneInternal(newScene),
+                    () => RemoveScene(newScene),
                     () => _scenes.Insert(sceneIndex, newScene),
                     $"Add {newScene.Name}"
                     ));
@@ -100,10 +100,10 @@ namespace LevelGenerator.GameProject
             RemoveSceneCommand = new RelayCommand<Scene>(x =>
             {
                 var sceneIndex = _scenes.IndexOf(x);
-                RemoveSceneInternal(x);
+                RemoveScene(x);
                 UndoRedo.Add(new UndoRedoAction(
                     () => _scenes.Insert(sceneIndex, x),
-                    () => RemoveSceneInternal(x),
+                    () => RemoveScene(x),
                     $"Remove {x.Name}"));
             }, x => !x.IsActive);
             UndoCommand = new RelayCommand<object>(x => UndoRedo.Undo());
