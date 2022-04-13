@@ -49,7 +49,7 @@ namespace LevelGenerator.GameProject
         }
 
         [DataMember(Name = nameof(GameEntities))]
-        private readonly ObservableCollection<GameEntity> _gameEntities = new ObservableCollection<GameEntity>();
+        private ObservableCollection<GameEntity> _gameEntities = new ObservableCollection<GameEntity>();
         public ReadOnlyObservableCollection<GameEntity> GameEntities { get; private set; }
 
         public ICommand AddGameEntityCommand { get; set; }
@@ -70,6 +70,9 @@ namespace LevelGenerator.GameProject
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context)
         {
+            if (_gameEntities == null)
+                _gameEntities = new ObservableCollection<GameEntity>();
+
             if (_gameEntities != null)
             {
                 GameEntities = new ReadOnlyObservableCollection<GameEntity>(_gameEntities);

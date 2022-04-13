@@ -1,4 +1,6 @@
 ﻿using LevelGenerator.GameProject;
+using LevelGenerator.GameProject.Components;
+using LevelGenerator.GameProject.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +30,43 @@ namespace LevelGenerator.Editors
 
         private void OnAddGameEntity_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            var btn = sender as Button;
+            var vm = btn.DataContext as Scene;
+            vm.AddGameEntityCommand.Execute(new GameEntity(vm) { Name = "New Game Entity" });
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GameEntityView.Instance.DataContext = null;
+            var listBox = (sender as ListBox);
+            if (e.AddedItems.Count > 0)
+            {
+                GameEntityView.Instance.DataContext = listBox.SelectedItems[0];
+            }
+
+            var newSelectedItems = listBox.SelectedItems
+                                         .Cast<GameEntity>()
+                                         .ToList();
+
+            var previousSelectedItems = newSelectedItems.Except(e.AddedItems.Cast<GameEntity>())
+                                                     .Concat(e.RemovedItems.Cast<GameEntity>()).ToList();
+
+            Project.UndoRedo.Add(new UndoRedoAction(
+                () => //undo
+                { 
+                    listBox.UnselectAll();
+                    previousSelectedItems.ForEach(item => (listBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem).IsSelected = true);
+                },
+                () => //redo
+                {
+                    listBox.UnselectAll();
+                    newSelectedItems.ForEach(item => (listBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem).IsSelected = true);
+                },
+                "Selection Changed"
+                ));
+        }
+
+        
+        
     }
 }

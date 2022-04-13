@@ -138,7 +138,8 @@ namespace LevelGenerator.GameProject
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return String.Empty;
+                Logger.Log(MessageType.Error, $"Failed to create {template.ProjectType}");
+                throw;
             }
         }
 

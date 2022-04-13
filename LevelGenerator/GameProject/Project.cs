@@ -70,11 +70,12 @@ namespace LevelGenerator.GameProject
         public static void Save(Project project)
         {
             Serializer.ToFile(project, project.FullPath);
+            Logger.Log(MessageType.Info,$"Saved project to {project.FullPath}");
         }
 
         public void Unload()
         {
-
+            UndoRedo.Reset();
         }
 
         [OnDeserialized]

@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=proj:Project, IsDesignTimeCreatable=True}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="DarkSeaGreen">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition/>
@@ -29,16 +29,16 @@
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding Name}"/>
                                         <Button Content="Remove" Command="{Binding DataContext.RemoveSceneCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="20,0,0,0"/>
-                                        <Button Content="+" Command="{Binding AddGameEntityCommand}" IsEnabled="{Binding IsActive}" Click="OnAddGameEntity_Button_Click"/>
+                                        <Button Content="+" IsEnabled="{Binding IsActive}" Click="OnAddGameEntity_Button_Click"/>
                                     </StackPanel>
                                 </Grid>
                             </Expander.Header>
-                            <ListBox ItemsSource="{Binding GameEntities}" IsEnabled="{Binding IsActive}" SelectionMode="Extended">
+                            <ListBox ItemsSource="{Binding GameEntities}" IsEnabled="{Binding IsActive}" SelectionMode="Extended" SelectionChanged="ListBox_SelectionChanged">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Name}"/>
-                                            <Button Content="Remove" Command="{Binding ParentScene.RemoveGameEntityCommand}" CommandParameter="{Binding}"
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}" FontSize="11" Margin="10,0,0,0"/>
+                                            <Button Content="Remove" Command="{Binding ParentScene.RemoveGameEntityCommand}" CommandParameter="{Binding}" Margin="10,0,0,0"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
