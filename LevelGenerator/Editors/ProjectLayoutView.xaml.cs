@@ -37,19 +37,12 @@ namespace LevelGenerator.Editors
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GameEntityView.Instance.DataContext = null;
             var listBox = (sender as ListBox);
-            if (e.AddedItems.Count > 0)
-            {
-                GameEntityView.Instance.DataContext = listBox.SelectedItems[0];
-            }
-
             var newSelectedItems = listBox.SelectedItems
-                                         .Cast<GameEntity>()
-                                         .ToList();
-
+                                          .Cast<GameEntity>()
+                                          .ToList();
             var previousSelectedItems = newSelectedItems.Except(e.AddedItems.Cast<GameEntity>())
-                                                     .Concat(e.RemovedItems.Cast<GameEntity>()).ToList();
+                                                        .Concat(e.RemovedItems.Cast<GameEntity>()).ToList();
 
             Project.UndoRedo.Add(new UndoRedoAction(
                 () => //undo
@@ -64,6 +57,14 @@ namespace LevelGenerator.Editors
                 },
                 "Selection Changed"
                 ));
+
+            MSGameEntity msEntity = null;
+            if (newSelectedItems.Any())
+            {
+                msEntity = new MSGameEntity(newSelectedItems);
+            }
+
+            GameEntityView.Instance.DataContext = msEntity;
         }
 
         

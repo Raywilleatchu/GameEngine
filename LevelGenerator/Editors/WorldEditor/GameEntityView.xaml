@@ -37,12 +37,15 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Name" Margin="5,0,0,0"/>
-                <TextBox Text="{Binding Name}" Grid.Column="1" Tag="{Binding RenameCommand}"/>
+                <TextBox Text="{Binding Name}" 
+                         Grid.Column="1"
+                         GotKeyboardFocus="OnName_TextBox_GotKeyBoardFocus"
+                         LostKeyboardFocus="OnName_TextBox_LostKeyBoardFocus"
+                         />
                 <StackPanel Orientation="Horizontal" Grid.Column="2">
                     <TextBlock Text="Enabled" Margin="5,0,0,0"/>
-                    <CheckBox IsChecked="{Binding IsEnabled, Mode=OneWay}" 
-                              Command="{Binding EnableCommand}" 
-                              CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"
+                    <CheckBox IsChecked="{Binding IsEnabled, Mode=OneTime}"
+                              Click="OnIsEnabled_CheckBox_Click"
                               Margin="5,0" 
                               VerticalAlignment="Center"/>
                 </StackPanel>
