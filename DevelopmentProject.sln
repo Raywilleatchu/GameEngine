@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelGenerator", "LevelGenerator\LevelGenerator.csproj", "{FADFC24C-32FB-43F7-B7E3-E5339B808215}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LevelGenerator", "LevelGenerator\LevelGenerator.csproj", "{FADFC24C-32FB-43F7-B7E3-E5339B808215}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Engine\Engine.vcxproj", "{F475CECF-B0D8-4B67-844F-706431A26060}"
 EndProject

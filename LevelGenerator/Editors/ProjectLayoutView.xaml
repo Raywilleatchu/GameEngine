@@ -23,7 +23,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Expander IsExpanded="{Binding IsActive, Mode=OneWay}">
+                        <Expander IsExpanded="{Binding IsActive, Mode=OneWay}" BorderThickness="0.5" BorderBrush="Black">
                             <Expander.Header>
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
@@ -37,8 +37,14 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}" FontSize="11" Margin="10,0,0,0"/>
-                                            <Button Content="Remove" Command="{Binding ParentScene.RemoveGameEntityCommand}" CommandParameter="{Binding}" Margin="10,0,0,0"/>
+                                            <Expander>
+                                                <Expander.ContentTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Name}" FontSize="11" Margin="10,0,0,0"/>
+                                                        <Button Content="Remove" Command="{Binding ParentScene.RemoveGameEntityCommand}" CommandParameter="{Binding}" Margin="10,0,0,0"/>
+                                                    </DataTemplate>
+                                                </Expander.ContentTemplate>
+                                            </Expander>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
