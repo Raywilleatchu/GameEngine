@@ -22,13 +22,25 @@ namespace LevelGenerator.GameProject
         public ProjectBrowserDialog()
         {
             InitializeComponent();
+            Loaded += OnProjectBroswerDialogLoaded;
+        }
+
+        private void OnProjectBroswerDialogLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnProjectBroswerDialogLoaded;
+            if (!OpenProject.Projects.Any())
+            {
+                openProjectButton.IsEnabled = false;
+                openProjectView.Visibility = Visibility.Hidden;
+                OnToggleButton_Click(newProjectButton, new RoutedEventArgs());
+            }
         }
 
         private void OnToggleButton_Click(Object sender, RoutedEventArgs e)
         {
             if(sender == openProjectButton)
             {
-                if(openProjectButton.IsChecked == true)
+                if(newProjectButton.IsChecked == true)
                 {
                     newProjectButton.IsChecked = false;
                     displayContent.Margin = new Thickness(0, 40, 0, -350);
@@ -37,7 +49,7 @@ namespace LevelGenerator.GameProject
             }
             else
             {
-                if(newProjectButton.IsChecked == true)
+                if(openProjectButton.IsChecked == true)
                 {
                     openProjectButton.IsChecked = false;
                     displayContent.Margin = new Thickness(-800, 40, 0, -350);

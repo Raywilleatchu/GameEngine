@@ -1,4 +1,6 @@
 ﻿using LevelGenerator.GameProject;
+using LevelGenerator.GameProject.Components;
+using LevelGenerator.GameProject.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,5 +27,47 @@ namespace LevelGenerator.Editors
         {
             InitializeComponent();
         }
+
+        private void OnAddGameEntity_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var btn = sender as Button;
+            var vm = btn.DataContext as Scene;
+            vm.AddGameEntityCommand.Execute(new GameEntity(vm) { Name = "New Game Entity" });
+        }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var listBox = (sender as ListBox);
+            var newSelectedItems = listBox.SelectedItems
+                                          .Cast<GameEntity>()
+                                          .ToList();
+            var previousSelectedItems = newSelectedItems.Except(e.AddedItems.Cast<GameEntity>())
+                                                        .Concat(e.RemovedItems.Cast<GameEntity>()).ToList();
+
+            Project.UndoRedo.Add(new UndoRedoAction(
+                () => //undo
+                { 
+                    listBox.UnselectAll();
+                    previousSelectedItems.ForEach(item => (listBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem).IsSelected = true);
+                },
+                () => //redo
+                {
+                    listBox.UnselectAll();
+                    newSelectedItems.ForEach(item => (listBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem).IsSelected = true);
+                },
+                "Selection Changed"
+                ));
+
+            MSGameEntity msEntity = null;
+            if (newSelectedItems.Any())
+            {
+                msEntity = new MSGameEntity(newSelectedItems);
+            }
+
+            GameEntityView.Instance.DataContext = msEntity;
+        }
+
+        
+        
     }
 }

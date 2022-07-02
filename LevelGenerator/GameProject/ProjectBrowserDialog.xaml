@@ -14,12 +14,12 @@
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,90">
             <ToggleButton Content="Open Project" x:Name="openProjectButton" FontSize="22" Click="OnToggleButton_Click" IsChecked="True"/>
-            <ToggleButton Content="New Project" x:Name="newProjectButton" FontSize="22" Margin="30, 0, 0, 0" Click="OnToggleButton_Click" IsChecked="False"/>
+            <ToggleButton Content="New Project" x:Name="newProjectButton" FontSize="22" Margin="30, 0, 0, 0" Click="OnToggleButton_Click" IsChecked="True"/>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal" x:Name="displayContent" Margin="0,40,0,-350">
-            <local:OpenProjectView/>
-            <local:NewProjectView/>
+            <local:OpenProjectView x:Name="openProjectView"/>
+            <local:NewProjectView x:Name="newProjectView"/>
         </StackPanel>
 
 
